@@ -27,6 +27,8 @@ class AppAsset extends AssetBundle
     public $js = [
         'js/uikit-icons.min.js',
         'js/uikit.min.js',
+        '/js/handlebars.runtime-v4.4.3.js',
+        '/js/handlebars-v4.4.3.js',
     ];
     public $depends = [
         'yii\web\YiiAsset',

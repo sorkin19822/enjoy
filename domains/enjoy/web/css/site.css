@@ -113,3 +113,29 @@ a.desc:after {
 .nav > li > form > button.logout:focus {
     outline: none;
 }
+
+.uk-alert-success a.uk-alert-close,
+.uk-alert-danger a.uk-alert-close{
+    position: relative;
+    top: 0px;
+    right: 15px;
+    color: inherit;
+    opacity: .4;
+    float: right;
+}
+.uk-alert-success{
+    margin: 5px 0!important;
+}
+.status{
+    font-size: 1.3em;
+}
+
+.messages{
+    font-size: 1.7em;
+}
+
+.systemMessages{
+    max-height: 300px;
+    overflow: auto;
+    margin-bottom: 20px;
+}

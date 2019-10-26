@@ -20,7 +20,7 @@ $form = ActiveForm::begin([
         'labelOptions' => ['class' => 'col-lg-1 control-label'],
     ],
 ]) ?>
-<?= $form->field($userAdd, 'user',)->textInput(['class' => 'inpitUserAdd form-control',
+<?= $form->field($userAdd, 'user')->textInput(['class' => 'inpitUserAdd form-control',
     'placeholder' => "Please enter user name of twitter"])
     ->label('User') ?>
     <div class="form-group">
@@ -53,3 +53,6 @@ $form = ActiveForm::begin([
 </div>
     <div class="uk-width-1-2">11</div>
 </div>
+
+<?
+include(Yii::getAlias('@app/views/client/template.php'));

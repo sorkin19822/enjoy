@@ -14,8 +14,9 @@ function addUser() {
             .done(function( data ) {
                 if(data.status == 'success'){
                     console.log(data);
+                    renderSuccess(data)
                 }else{
-                    $('.systemMessages').html(data.status);
+                    renderError(data)
                 }
             });
 }
@@ -35,5 +36,15 @@ function randomString(len, charSet) {
 }
 
 function renderError(data) {
+    var source   = $("#error-template").html();
+    var template = Handlebars.compile(source);
+    var html    = template(data);
+    $('.systemMessages').append(html);
+}
 
+function renderSuccess(data) {
+    var source   = $("#success-template").html();
+    var template = Handlebars.compile(source);
+    var html    = template(data);
+    $('.systemMessages').append(html);
 }

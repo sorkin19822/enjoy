@@ -13,7 +13,7 @@ class ServerController extends \yii\web\Controller
      */
     public function actionGetsecretkey($userName='', $id='')
     {
-        if(empty($userName)&&!empty($id)){
+        if(!empty($userName)&&!empty($id)){
             $sha = sha1($id . $userName);
             Yii::$app->response->statusCode = 200;
             Yii::$app->response->format = yii\web\Response::FORMAT_JSON;
