@@ -40,18 +40,19 @@ $form = ActiveForm::begin([
             ],
         ]) ?>
         <?= $form->field($userDel, 'user')->textInput(['class' => 'inpitUserDel form-control',
-            'placeholder' => "Please enter user name foor delete"])
+            'placeholder' => "Please enter user name for delete"])
             ->label('User') ?>
         <div class="form-group">
             <div class="col-lg-offset-1 col-lg-11">
 
-                <?= Html::submitButton('Del', [], ['class'=>'addUser btn btn-primary'],
-                    ['data-confirm' => 'Удалить?']); ?>
+                <?= Html::submitButton('Del', ['id'=>'delUser', 'class'=>'addUser btn btn-primary']) ?>
             </div>
         </div>
         <?php ActiveForm::end() ?></div>
 </div>
-    <div class="uk-width-1-2">11</div>
+    <div class="uk-width-1-2">
+        <div><button class="uk-button uk-button-secondary uk-width-1-1">Feed</button></div>
+        11</div>
 </div>
 
 <?

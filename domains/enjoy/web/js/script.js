@@ -25,7 +25,6 @@ function addUser() {
 }
 
 function insertUserToDb(id,userName,sha1) {
-
     $.getJSON( "/web/server/insertuser", { id: id, userName: userName, secret:sha1 } )
         .done(function( data ) {
             console.log(data);

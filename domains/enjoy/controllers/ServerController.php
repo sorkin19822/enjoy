@@ -30,6 +30,12 @@ class ServerController extends \yii\web\Controller
 
     }
 
+    /**
+     * @param string $id
+     * @param string $userName
+     * @param string $secret
+     * @throws HttpException
+     */
     public function actionInsertuser($id='',$userName='',$secret=''){
 
         $clearData = new ClearInputData();
@@ -47,7 +53,20 @@ class ServerController extends \yii\web\Controller
            die();
         };
 
-        $usertwit = new Usertwit();
+        $twitter = new Twitter($userName, '1');
+        $isUserNotEmpty = $twitter->returnTweet();
+        if(empty($isUserNotEmpty)){
+            $response = ['status' => 'error', 'data' =>'user not found in Twitter'];
+            throw new HttpException(404 ,json_encode($response));
+        }
+        else{
+            $useTwit = new Usertwit();
+            $useTwit->name = $userName;
+            $useTwit->date_add = date("Y-m-d H:i:s");
+            $useTwit->date_last_view = date("Y-m-d H:i:s");
+            $useTwit->save();
+        };
+
 
 
     }
