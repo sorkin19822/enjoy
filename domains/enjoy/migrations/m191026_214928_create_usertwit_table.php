@@ -3,35 +3,34 @@
 use yii\db\Migration;
 
 /**
- * Handles the creation of table `{{%user}}`.
+ * Handles the creation of table `{{%usertwit}}`.
  */
-class m191026_205505_create_user_table extends Migration
+class m191026_214928_create_usertwit_table extends Migration
 {
     /**
      * {@inheritdoc}
      */
     public function safeUp()
     {
-
-        $this->createTable('{{%user}}', [
+        $this->createTable('{{%usertwit}}', [
             'id' => $this->primaryKey(),
             'name' => $this->string(60)->notNull()->unique(),
             'date_add' => $this->dateTime(),
             'date_last_view' => $this->dateTime(),
         ]);
 
-        $this->insert('{{%user}}',[
+        $this->insert('{{%usertwit}}',[
             'name' => 'ZelenskyyUa',
             'date_add' => date("Y-m-d H:i:s"),
             'date_last_view' => date("Y-m-d H:i:s"),
 
         ]);
-        $this->insert('{{%user}}',[
-                    'name' => 'meduzaproject',
-                    'date_add' => date("Y-m-d H:i:s"),
-                    'date_last_view' => date("Y-m-d H:i:s"),
+        $this->insert('{{%usertwit}}',[
+            'name' => 'meduzaproject',
+            'date_add' => date("Y-m-d H:i:s"),
+            'date_last_view' => date("Y-m-d H:i:s"),
 
-                ]);
+        ]);
     }
 
     /**
@@ -39,6 +38,6 @@ class m191026_205505_create_user_table extends Migration
      */
     public function safeDown()
     {
-        $this->dropTable('{{%user}}');
+        $this->dropTable('{{%usertwit}}');
     }
 }

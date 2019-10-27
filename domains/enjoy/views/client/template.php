@@ -1,7 +1,7 @@
 <script id="error-template" type="text/x-handlebars-template">
     <div class="uk-alert-danger" uk-alert>
         <a class="uk-alert-close" uk-close></a>
-        <p><span class="status">{{status}}:       </span><span class="messages">{{messages}}</span></p>
+        <p><span class="messages">{{responseText}}</span></p>
     </div>
 </script>
 

@@ -13,15 +13,26 @@ function addUser() {
         $.getJSON( "/web/server/getsecretkey", { userName: userName, id: id } )
             .done(function( data ) {
                 if(data.status == 'success'){
-                    console.log(data);
                     renderSuccess(data)
+                    sha1 = data.data.sha
+                    insertUserToDb(id,userName,sha1)
                 }else{
                     renderError(data)
                 }
-            });
+            }).fail(function(data) {
+            renderError(data)
+        })
 }
 
+function insertUserToDb(id,userName,sha1) {
 
+    $.getJSON( "/web/server/insertuser", { id: id, userName: userName, secret:sha1 } )
+        .done(function( data ) {
+            console.log(data);
+        }).fail(function(data) {
+        if(data.responseText.length>0){renderError(data)}
+    });
+}
 
 
 
