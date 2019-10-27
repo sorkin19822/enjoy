@@ -3,6 +3,8 @@
 namespace app\controllers;
 use app\models\AddUserTwitter;
 use app\models\DelUserTwitter;
+use app\models\Twitter;
+use app\models\Usertwit;
 use Yii;
 use yii\web\HttpException;
 use app\models\ClearInputData;
@@ -40,10 +42,20 @@ class ServerController extends \yii\web\Controller
             Yii::$app->response->format = yii\web\Response::FORMAT_JSON;
             throw new HttpException(404 ,json_encode($response));
         }
+        $rez = Usertwit::find()->where(['name' => $userName])->asArray()->one();
+        if(!empty($rez)){
+           die();
+        };
 
+        $usertwit = new Usertwit();
+
+
+    }
+
+    public function actionTest(){
+        $twitter = new Twitter('Arsenal', '1');
+        var_dump($twitter->returnTweet());
         die();
-
-
     }
 
 }
