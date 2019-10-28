@@ -71,6 +71,45 @@ class ServerController extends \yii\web\Controller
 
     }
 
+    /**
+     * @param string $id
+     * @param string $secret
+     * @throws HttpException
+     */
+    public function actionGetfeed($id='',$secret=''){
+        $clearData = new ClearInputData();
+        $clearData->setId($id);
+        $clearData->setUserName(true);
+        $clearData->setSecret($secret);
+        $error = $clearData->isValidate();
+        if ($error) {
+            $response = ['status' => 'error', 'data' =>$error];
+            Yii::$app->response->format = yii\web\Response::FORMAT_JSON;
+            throw new HttpException(404 ,json_encode($response));
+        }
+        $rez = Usertwit::find()->select('name')->asArray()->all();
+        $feed = [];
+        foreach ($rez as $key =>$user){
+            $userUpdate = Usertwit::find()->where(['name' => $user])->one();
+            $userUpdate->date_last_view = date("Y-m-d H:i:s");
+            $userUpdate->save();
+            $twitters = new Twitter($user['name'], '5');
+            $twitterNews = (object)$twitters->returnTweet();
+            $news=[];
+            foreach ($twitterNews as $tweet){
+                $hashtag=[];
+                foreach ($tweet['entities']['hashtags'] as $tags){
+                    $hashtag[]=$tags['text'];
+                }
+                $feed['feed'][]=["user"=>$tweet['user']['name'],'tweet'=>$tweet['text'],'hashtag'=>$hashtag];
+            }
+
+
+        }
+        Yii::$app->response->format = yii\web\Response::FORMAT_JSON;
+        die(json_encode($feed,JSON_UNESCAPED_UNICODE));
+    }
+
     public function actionTest(){
         $twitter = new Twitter('Arsenal', '1');
         var_dump($twitter->returnTweet());

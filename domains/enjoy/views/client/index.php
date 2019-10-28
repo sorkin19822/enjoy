@@ -51,8 +51,9 @@ $form = ActiveForm::begin([
         <?php ActiveForm::end() ?></div>
 </div>
     <div class="uk-width-1-2">
-        <div><button class="uk-button uk-button-secondary uk-width-1-1">Feed</button></div>
-        11</div>
+        <div><button class="uk-button uk-button-secondary uk-width-1-1" id="userFeed">Feed</button></div>
+        <div class="uk-margin-small getFeedButton">11</div>
+    </div>
 </div>
 
 <?

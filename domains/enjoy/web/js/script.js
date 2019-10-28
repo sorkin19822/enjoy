@@ -5,6 +5,10 @@ window.onload = function() {
         return false;
     });
 
+    $('#userFeed').click(function() {
+        getFeed()
+    });
+
 };
 
 function addUser() {
@@ -20,7 +24,7 @@ function addUser() {
                     renderError(data)
                 }
             }).fail(function(data) {
-            renderError(data)
+            if(data.status!=200){renderError(data)}
         })
 }
 
@@ -29,7 +33,7 @@ function insertUserToDb(id,userName,sha1) {
         .done(function( data ) {
             console.log(data);
         }).fail(function(data) {
-        if(data.responseText.length>0){renderError(data)}
+        if(data.status!=200){renderError(data)}
     });
 }
 
@@ -45,6 +49,32 @@ function randomString(len, charSet) {
     return randomString;
 }
 
+function getFeed() {
+    let id = randomString(32)
+    $.getJSON( "/web/server/getsecretkey", { userName: 1,id: id } )
+        .done(function( data ) {
+            if(data.status == 'success'){
+                sha1 = data.data.sha
+                getDataFeed(id,sha1)
+            }else{
+                renderError(data)
+            }
+        }).fail(function(data) {
+        if(data.status!=200){renderError(data)}
+    })
+}
+
+function  getDataFeed(id,sha1) {
+    $.getJSON( "/web/server/getfeed", { id: id, secret:sha1 } )
+        .done(function( data ) {
+           // console.log(data)
+            renderTwits(data)
+        }).fail(function(data) {
+        console.log(data);
+        if(data.status!=200){renderError(data)}
+    });
+}
+
 function renderError(data) {
     var source   = $("#error-template").html();
     var template = Handlebars.compile(source);
@@ -57,4 +87,12 @@ function renderSuccess(data) {
     var template = Handlebars.compile(source);
     var html    = template(data);
     $('.systemMessages').append(html);
+}
+
+function renderTwits(data) {
+    console.log(data)
+    var source   = $("#render-twits-template").html();
+    var template = Handlebars.compile(source);
+    var html    = template(data);
+    $('.getFeedButton').append(html);
 }
