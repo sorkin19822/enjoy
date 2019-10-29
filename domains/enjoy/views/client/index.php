@@ -32,7 +32,7 @@ $form = ActiveForm::begin([
     </div>
     <div class="uk-width-1-1"><?php
         $form = ActiveForm::begin([
-            'id' => 'login-form',
+            'id' => 'delUser-form',
             'options' => ['class' => 'form-horizontal'],
             'fieldConfig' => [
                 'template' => "{label}\n<div class=\"col-lg-6\">{input}</div>\n<div class=\"col-lg-6\">{error}</div>",
@@ -52,7 +52,7 @@ $form = ActiveForm::begin([
 </div>
     <div class="uk-width-1-2">
         <div><button class="uk-button uk-button-secondary uk-width-1-1" id="userFeed">Feed</button></div>
-        <div class="uk-margin-small getFeedButton">11</div>
+        <div class="uk-margin-small getFeedButton"></div>
     </div>
 </div>
 
