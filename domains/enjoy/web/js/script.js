@@ -5,11 +5,32 @@ window.onload = function() {
         return false;
     });
 
+    $('#delUser-form').on('beforeSubmit', function (e) {
+        delUser()
+        return false;
+    });
+
     $('#userFeed').click(function() {
         getFeed()
     });
 
 };
+
+function delUser() {
+    let userName = $('.inpitUserDel').val() ;
+    let id = randomString(32)
+    $.getJSON( "/web/server/getsecretkey", { userName: userName, id: id } )
+        .done(function( data ) {
+            if(data.status == 'success'){
+                sha1 = data.data.sha
+                deleteUserDb(id,userName,sha1)
+            }else{
+                renderError(data)
+            }
+        }).fail(function(data) {
+        if(data.status!=200){renderError(data)}
+    })
+}
 
 function addUser() {
         let userName = $('.inpitUserAdd').val() ;
@@ -17,7 +38,6 @@ function addUser() {
         $.getJSON( "/web/server/getsecretkey", { userName: userName, id: id } )
             .done(function( data ) {
                 if(data.status == 'success'){
-                    renderSuccess(data)
                     sha1 = data.data.sha
                     insertUserToDb(id,userName,sha1)
                 }else{
@@ -29,7 +49,7 @@ function addUser() {
 }
 
 function insertUserToDb(id,userName,sha1) {
-    $.getJSON( "/web/server/insertuser", { id: id, userName: userName, secret:sha1 } )
+    $.getJSON( "/web/server/add", { id: id, userName: userName, secret:sha1 } )
         .done(function( data ) {
             console.log(data);
         }).fail(function(data) {
@@ -37,6 +57,14 @@ function insertUserToDb(id,userName,sha1) {
     });
 }
 
+function  deleteUserDb(id,userName,sha1) {
+    $.getJSON( "/web/server/remove", { id: id, userName: userName, secret:sha1 } )
+        .done(function( data ) {
+            console.log(data);
+        }).fail(function(data) {
+        if(data.status!=200){renderError(data)}
+    });
+}
 
 
 function randomString(len, charSet) {
@@ -79,20 +107,14 @@ function renderError(data) {
     var source   = $("#error-template").html();
     var template = Handlebars.compile(source);
     var html    = template(data);
-    $('.systemMessages').append(html);
+    $('.systemMessages').prepend(html);
 }
 
-function renderSuccess(data) {
-    var source   = $("#success-template").html();
-    var template = Handlebars.compile(source);
-    var html    = template(data);
-    $('.systemMessages').append(html);
-}
 
 function renderTwits(data) {
     console.log(data)
     var source   = $("#render-twits-template").html();
     var template = Handlebars.compile(source);
     var html    = template(data);
-    $('.getFeedButton').append(html);
+    $('.getFeedButton').prepend(html);
 }

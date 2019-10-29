@@ -6,6 +6,7 @@ use app\models\DelUserTwitter;
 use app\models\Twitter;
 use app\models\Usertwit;
 use Yii;
+use yii\web\Response;
 use yii\web\HttpException;
 use app\models\ClearInputData;
 class ServerController extends \yii\web\Controller
@@ -36,7 +37,7 @@ class ServerController extends \yii\web\Controller
      * @param string $secret
      * @throws HttpException
      */
-    public function actionInsertuser($id='',$userName='',$secret=''){
+    public function actionAdd($id='',$userName='',$secret=''){
 
         $clearData = new ClearInputData();
         $clearData->setId($id);
@@ -55,7 +56,7 @@ class ServerController extends \yii\web\Controller
 
         $twitter = new Twitter($userName, '1');
         $isUserNotEmpty = $twitter->returnTweet();
-        if(empty($isUserNotEmpty)){
+        if(is_null($isUserNotEmpty[0])){
             $response = ['status' => 'error', 'data' =>'user not found in Twitter'];
             throw new HttpException(404 ,json_encode($response));
         }
@@ -68,6 +69,30 @@ class ServerController extends \yii\web\Controller
         };
 
 
+
+    }
+
+    public function actionRemove($id='',$userName='',$secret='')
+    {
+        $clearData = new ClearInputData();
+        $clearData->setId($id);
+        $clearData->setUserName($userName);
+        $clearData->setSecret($secret);
+        $error = $clearData->isValidate();
+        if ($error) {
+            $response = ['status' => 'error', 'data' =>$error];
+            Yii::$app->response->format = yii\web\Response::FORMAT_JSON;
+            throw new HttpException(404 ,$response);
+        }
+        $rez = Usertwit::find()->where(['name' => $userName])->one();
+        if($rez==null){
+            $response = ['status' => 'error', 'data' =>'user not found in data base'];
+            throw new HttpException(412 ,json_encode($response));
+        };
+
+        $rez->delete();
+
+        die('true');
 
     }
 
@@ -85,7 +110,7 @@ class ServerController extends \yii\web\Controller
         if ($error) {
             $response = ['status' => 'error', 'data' =>$error];
             Yii::$app->response->format = yii\web\Response::FORMAT_JSON;
-            throw new HttpException(404 ,json_encode($response));
+            throw new HttpException(404 ,$response);
         }
         $rez = Usertwit::find()->select('name')->asArray()->all();
         $feed = [];
@@ -106,8 +131,10 @@ class ServerController extends \yii\web\Controller
 
 
         }
-        Yii::$app->response->format = yii\web\Response::FORMAT_JSON;
-        die(json_encode($feed,JSON_UNESCAPED_UNICODE));
+
+        Yii::$app->response->format = Response::FORMAT_JSON;
+
+        return $feed;
     }
 
     public function actionTest(){
