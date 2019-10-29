@@ -58,7 +58,7 @@ class ServerController extends \yii\web\Controller
         $twitter = new Twitter($userName, '1');
         $isUserNotEmpty = $twitter->returnTweet();
         if(is_null($isUserNotEmpty[0])){
-            $response = ['status' => 'error', 'data' =>'user not found in Twitter'];
+            $response = ['status' => 'error', 'data' =>'The'.$userName.'user not found in Twitter'];
             throw new HttpException(404 ,json_encode($response));
         }
         else{
@@ -97,7 +97,7 @@ class ServerController extends \yii\web\Controller
         }
         $rez = Usertwit::find()->where(['name' => $userName])->one();
         if($rez==null){
-            $response = ['status' => 'error', 'data' =>'user not found in data base'];
+            $response = ['status' => 'error', 'data' =>'The user '.$userName.' not found in data base'];
             throw new HttpException(412 ,json_encode($response));
         };
 
