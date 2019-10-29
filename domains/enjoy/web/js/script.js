@@ -93,7 +93,7 @@ function getFeed() {
 }
 
 function  getDataFeed(id,sha1) {
-    $.getJSON( "/web/server/getfeed", { id: id, secret:sha1 } )
+    $.getJSON( "/web/server/feed", { id: id, secret:sha1 } )
         .done(function( data ) {
            // console.log(data)
             renderTwits(data)

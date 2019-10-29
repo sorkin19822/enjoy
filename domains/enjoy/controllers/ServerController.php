@@ -31,6 +31,7 @@ class ServerController extends \yii\web\Controller
 
     }
 
+    //GET: {endpoint}/add?id=...&user=..&secret=..
     /**
      * @param string $id
      * @param string $userName
@@ -71,6 +72,16 @@ class ServerController extends \yii\web\Controller
 
 
     }
+//GET: {endpoint}/remove?id=...&user=..&secret=..
+
+    /**
+     * @param string $id
+     * @param string $userName
+     * @param string $secret
+     * @throws HttpException
+     * @throws \Throwable
+     * @throws \yii\db\StaleObjectException
+     */
 
     public function actionRemove($id='',$userName='',$secret='')
     {
@@ -82,7 +93,7 @@ class ServerController extends \yii\web\Controller
         if ($error) {
             $response = ['status' => 'error', 'data' =>$error];
             Yii::$app->response->format = yii\web\Response::FORMAT_JSON;
-            throw new HttpException(404 ,$response);
+            throw new HttpException(404 ,json_encode($response));
         }
         $rez = Usertwit::find()->where(['name' => $userName])->one();
         if($rez==null){
@@ -92,16 +103,17 @@ class ServerController extends \yii\web\Controller
 
         $rez->delete();
 
-        die('true');
+        die();
 
     }
 
+    //GET: {endpoint}/feed?id=...&secret=..
     /**
      * @param string $id
      * @param string $secret
      * @throws HttpException
      */
-    public function actionGetfeed($id='',$secret=''){
+    public function actionFeed($id='',$secret=''){
         $clearData = new ClearInputData();
         $clearData->setId($id);
         $clearData->setUserName(true);
