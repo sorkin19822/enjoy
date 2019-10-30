@@ -26,7 +26,4 @@ enjoy/domains/enjoy/controllers/ClientController.php<br>
 enjoy/domains/enjoy/controllers/ServerController.php    
 </li>
 <li>Скрипт для клиентских запросов <br> enjoy/domains/enjoy/web/js/script.js </li>
-<li></li>
-<li></li>
-
 </ul>
