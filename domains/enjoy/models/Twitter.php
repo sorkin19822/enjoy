@@ -36,7 +36,7 @@ public function buildAuthorizationHeader($oauth) {
         $r .= implode(', ', $values);
         return $r;
     }
-
+//токен не действителен
 public function returnTweet(){
         $oauth_access_token         = "1185971966500626432-DQYs4790ORYF6suzniNlTdd405px2R";
         $oauth_access_token_secret  = "gZl0d1gzu6rLGbH5ePJUGfHd7rhAsMfnOL9GQ4zNJMRHq";
